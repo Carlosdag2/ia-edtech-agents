@@ -21,8 +21,6 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
     json_response(['ok' => false, 'message' => 'Método no permitido.'], 405);
 }
 
-// Rate limit
-if (!rate_limit_simple(5, 600)) {
 // Rate limit (can be disabled for local dev)
 $rateLimitEnabled = $config['rate_limit_enabled'] ?? true;
 if ($rateLimitEnabled && !rate_limit_simple(5, 600)) {
@@ -106,7 +104,6 @@ if (!empty($entries['lead_status']) && $entries['lead_status'] !== 'entry.xxxxxx
     $payload[$entries['lead_status']] = $status;
 }
 
-$ok = send_to_google_form($config['google_form_url'], $payload);
 $debugInfo = [];
 $ok = send_to_google_form(
     $config['google_form_url'],
@@ -118,7 +115,6 @@ $ok = send_to_google_form(
 if (!$ok) {
     $resp = ['ok' => false, 'message' => 'No se pudo enviar la solicitud. Inténtalo de nuevo.'];
     if (!empty($config['debug'])) {
-        $resp['debug'] = ['payload_keys' => array_keys($payload)];
         $resp['debug'] = [
             'payload_keys' => array_keys($payload),
             'transport' => $debugInfo['transport'] ?? null,
@@ -155,7 +151,6 @@ function calculate_lead_score(array $i): int
     $hot = ['Captación de alumnos', 'Admisiones / matrícula', 'Retención / abandono', 'Reporting / datos'];
     if (in_array($i['area_prioritaria'], $hot, true)) $score += 15;
 
-    if (mb_strlen($i['mensaje']) > 80) $score += 15;
     $mensajeLen = function_exists('mb_strlen') ? mb_strlen($i['mensaje']) : strlen($i['mensaje']);
     if ($mensajeLen > 80) $score += 15;
 
@@ -165,11 +160,9 @@ function calculate_lead_score(array $i): int
     return $score;
 }
 
-function send_to_google_form(string $url, array $payload): bool
 function send_to_google_form(string $url, array $payload, bool $allowInsecureSsl = false, ?array &$debug = null): bool
 
 {
-    if (!$url || strpos($url, 'FORM_ID') !== false) return false;
     if (!$url || strpos($url, 'FORM_ID') !== false) {
         if ($debug !== null) $debug = ['invalid_url' => true];
         return false;
@@ -188,7 +181,6 @@ function send_to_google_form(string $url, array $payload, bool $allowInsecureSsl
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_TIMEOUT        => 12,
             CURLOPT_CONNECTTIMEOUT => 6,
-            CURLOPT_SSL_VERIFYPEER => true,
             CURLOPT_SSL_VERIFYPEER => $verifySsl,
             CURLOPT_SSL_VERIFYHOST => $verifySsl ? 2 : 0,
             CURLOPT_USERAGENT      => 'IAPower-OficinaAgenticaEdTech/1.0',
@@ -225,7 +217,6 @@ function send_to_google_form(string $url, array $payload, bool $allowInsecureSsl
 
     ]);
     $result = @file_get_contents($url, false, $context);
-    if ($result === false) return false;
     $lastError = $result === false ? (error_get_last()['message'] ?? null) : null;
     if ($result === false) {
         if ($debug !== null) {

@@ -6,9 +6,6 @@
  */
 
 return [
-    'google_form_url' => 'https://docs.google.com/forms/d/e/FORM_ID/formResponse',
-    'calendar_url'    => 'https://calendar.google.com/',
-    'debug'           => false,
     'google_form_url' => 'https://docs.google.com/forms/d/e/1FAIpQLSdQcczpr6_2XzPNHvtM_1s7ASPuIN4YoeLX6NcWoWXqUncmdg/formResponse',
     'calendar_url'    => 'https://calendar.app.google/gPuxw1LtokztmrKL8',
     'debug'           => true,
@@ -18,28 +15,6 @@ return [
     'rate_limit_enabled' => false,
 
     'entries' => [
-        'nombre'             => 'entry.xxxxxxxxxx',
-        'email'              => 'entry.xxxxxxxxxx',
-        'telefono'           => 'entry.xxxxxxxxxx',
-        'empresa'            => 'entry.xxxxxxxxxx',
-        'cargo'              => 'entry.xxxxxxxxxx',
-        'web'                => 'entry.xxxxxxxxxx',
-        'tipo_organizacion'  => 'entry.xxxxxxxxxx',
-        'tamano_equipo'      => 'entry.xxxxxxxxxx',
-        'google_workspace'   => 'entry.xxxxxxxxxx',
-        'area_prioritaria'   => 'entry.xxxxxxxxxx',
-        'herramientas'       => 'entry.xxxxxxxxxx',
-        'mensaje'            => 'entry.xxxxxxxxxx',
-        'rgpd'               => 'entry.xxxxxxxxxx',
-        'utm_source'         => 'entry.xxxxxxxxxx',
-        'utm_medium'         => 'entry.xxxxxxxxxx',
-        'utm_campaign'       => 'entry.xxxxxxxxxx',
-        'utm_content'        => 'entry.xxxxxxxxxx',
-        'utm_term'           => 'entry.xxxxxxxxxx',
-        'ip'                 => 'entry.xxxxxxxxxx',
-        'user_agent'         => 'entry.xxxxxxxxxx',
-        'lead_score'         => 'entry.xxxxxxxxxx',
-        'lead_status'        => 'entry.xxxxxxxxxx',
         'nombre'             => 'entry.1269787648',
         'email'              => 'entry.1968449715',
         'telefono'           => 'entry.786257083',
