@@ -23,6 +23,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
 
 // Rate limit
 if (!rate_limit_simple(5, 600)) {
+// Rate limit (can be disabled for local dev)
+$rateLimitEnabled = $config['rate_limit_enabled'] ?? true;
+if ($rateLimitEnabled && !rate_limit_simple(5, 600)) {
     json_response(['ok' => false, 'message' => 'Has realizado demasiadas solicitudes. Inténtalo más tarde.'], 429);
 }
 
@@ -104,11 +107,29 @@ if (!empty($entries['lead_status']) && $entries['lead_status'] !== 'entry.xxxxxx
 }
 
 $ok = send_to_google_form($config['google_form_url'], $payload);
+$debugInfo = [];
+$ok = send_to_google_form(
+    $config['google_form_url'],
+    $payload,
+    !empty($config['allow_insecure_ssl']),
+    $debugInfo
+);
 
 if (!$ok) {
     $resp = ['ok' => false, 'message' => 'No se pudo enviar la solicitud. Inténtalo de nuevo.'];
     if (!empty($config['debug'])) {
         $resp['debug'] = ['payload_keys' => array_keys($payload)];
+        $resp['debug'] = [
+            'payload_keys' => array_keys($payload),
+            'transport' => $debugInfo['transport'] ?? null,
+            'http_code' => $debugInfo['http_code'] ?? null,
+            'status_line' => $debugInfo['status_line'] ?? null,
+            'curl_errno' => $debugInfo['curl_errno'] ?? null,
+            'curl_error' => $debugInfo['curl_error'] ?? null,
+            'error' => $debugInfo['error'] ?? null,
+            'ssl_verify' => $debugInfo['ssl_verify'] ?? null,
+            'invalid_url' => $debugInfo['invalid_url'] ?? null,
+        ];
     }
     json_response($resp, 502);
 }
@@ -135,6 +156,8 @@ function calculate_lead_score(array $i): int
     if (in_array($i['area_prioritaria'], $hot, true)) $score += 15;
 
     if (mb_strlen($i['mensaje']) > 80) $score += 15;
+    $mensajeLen = function_exists('mb_strlen') ? mb_strlen($i['mensaje']) : strlen($i['mensaje']);
+    if ($mensajeLen > 80) $score += 15;
 
     $premiumOrg = ['Universidad', 'Escuela de negocio', 'Plataforma EdTech'];
     if (in_array($i['tipo_organizacion'], $premiumOrg, true)) $score += 15;
@@ -143,10 +166,17 @@ function calculate_lead_score(array $i): int
 }
 
 function send_to_google_form(string $url, array $payload): bool
+function send_to_google_form(string $url, array $payload, bool $allowInsecureSsl = false, ?array &$debug = null): bool
+
 {
     if (!$url || strpos($url, 'FORM_ID') !== false) return false;
+    if (!$url || strpos($url, 'FORM_ID') !== false) {
+        if ($debug !== null) $debug = ['invalid_url' => true];
+        return false;
+    }
 
     $body = http_build_query($payload);
+    $verifySsl = !$allowInsecureSsl;
 
     // cURL primero
     if (function_exists('curl_init')) {
@@ -159,11 +189,22 @@ function send_to_google_form(string $url, array $payload): bool
             CURLOPT_TIMEOUT        => 12,
             CURLOPT_CONNECTTIMEOUT => 6,
             CURLOPT_SSL_VERIFYPEER => true,
+            CURLOPT_SSL_VERIFYPEER => $verifySsl,
+            CURLOPT_SSL_VERIFYHOST => $verifySsl ? 2 : 0,
             CURLOPT_USERAGENT      => 'IAPower-OficinaAgenticaEdTech/1.0',
             CURLOPT_HTTPHEADER     => ['Content-Type: application/x-www-form-urlencoded'],
         ]);
         $resp = curl_exec($ch);
         $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($debug !== null) {
+            $debug = [
+                'transport' => 'curl',
+                'http_code' => $code,
+                'curl_errno' => curl_errno($ch),
+                'curl_error' => curl_error($ch),
+                'ssl_verify' => $verifySsl,
+            ];
+        }
         curl_close($ch);
         // Google Forms responde 200 con HTML de confirmación
         if ($resp !== false && $code >= 200 && $code < 400) return true;
@@ -180,15 +221,42 @@ function send_to_google_form(string $url, array $payload): bool
             'timeout'       => 12,
             'ignore_errors' => true,
         ],
-        'ssl' => ['verify_peer' => true, 'verify_peer_name' => true],
+        'ssl' => ['verify_peer' => $verifySsl, 'verify_peer_name' => $verifySsl],
+
     ]);
     $result = @file_get_contents($url, false, $context);
     if ($result === false) return false;
+    $lastError = $result === false ? (error_get_last()['message'] ?? null) : null;
+    if ($result === false) {
+        if ($debug !== null) {
+            $debug = [
+                'transport' => 'stream',
+                'error' => $lastError,
+                'ssl_verify' => $verifySsl,
+            ];
+        }
+        return false;
+    }
     // $http_response_header existe tras la llamada
     $statusLine = $http_response_header[0] ?? '';
     if (preg_match('#HTTP/\S+\s+(\d{3})#', $statusLine, $m)) {
         $code = (int) $m[1];
+        if ($debug !== null) {
+            $debug = [
+                'transport' => 'stream',
+                'http_code' => $code,
+                'status_line' => $statusLine,
+                'ssl_verify' => $verifySsl,
+            ];
+        }
         return $code >= 200 && $code < 400;
+    }
+    if ($debug !== null) {
+        $debug = [
+            'transport' => 'stream',
+            'status_line' => $statusLine,
+            'ssl_verify' => $verifySsl,
+        ];
     }
     return true;
 }
