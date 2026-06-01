@@ -1,54 +1,30 @@
-import { SectionTitle } from "@/components/SectionTitle";
-import { useReveal } from "@/hooks/useReveal";
-
 const steps = [
-  { n: "01", title: "Diagnóstico estratégico", text: "Analizamos captación, admisiones, onboarding, soporte, experiencia, datos, herramientas y procesos." },
-  { n: "02", title: "Mapa AS IS / TO BE", text: "Detectamos fricciones, fugas, tareas repetitivas, desconexiones y oportunidades de automatización." },
-  { n: "03", title: "Diseño de agentes y journeys", text: "Definimos agentes prioritarios, casos de uso, flujos, permisos, integraciones y KPIs." },
-  { n: "04", title: "Gobierno y seguridad", text: "Establecemos criterios de uso responsable, trazabilidad, supervisión humana, roles y control de datos." },
-  { n: "05", title: "Implementación piloto", text: "Creamos los primeros agentes conectados a Google Workspace, CRM o herramientas internas." },
-  { n: "06", title: "Adopción y escalado", text: "Formamos equipos, medimos impacto, ajustamos procesos y escalamos por áreas." },
+  { title: "Diagnóstico", text: "Detectamos fugas, procesos manuales y oportunidades IA." },
+  { title: "Diseño", text: "Definimos agentes, datos, permisos, flujos y KPIs." },
+  { title: "Piloto", text: "Implementamos los primeros agentes conectados a herramientas reales." },
+  { title: "Escalado", text: "Medimos, formamos al equipo y priorizamos siguientes casos." },
 ];
 
 export function Method() {
   return (
-    <section id="metodo" className="py-20 md:py-28 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionTitle
-          eyebrow="Método"
-          title="Nuestro método: de institución digital a Oficina Agéntica EdTech"
-        />
+    <section id="metodo" className="bg-brand-deep px-5 py-20 text-white">
+      <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="rounded-full bg-white/10 px-4 py-1.5 text-xs font-black uppercase tracking-[0.18em] text-brand-cyan">Método IA Power</span>
+          <h2 className="mt-5 text-3xl font-black text-white md:text-5xl">De diagnóstico a piloto en semanas</h2>
+          <p className="mt-4 text-lg leading-relaxed text-white/70">Menos consultoría eterna. Más foco en quick wins, gobierno y despliegue medible.</p>
+        </div>
 
-        <div className="mt-14 relative max-w-4xl mx-auto">
-          {/* vertical line */}
-          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-brand-bright via-brand-cyan to-brand-violet/50 md:-translate-x-1/2" />
-
-          <ul className="space-y-10">
-            {steps.map((s, i) => (
-              <Step key={s.n} step={s} index={i} />
-            ))}
-          </ul>
+        <div className="mt-12 grid gap-5 md:grid-cols-4">
+          {steps.map((step, index) => (
+            <div key={step.title} className="rounded-3xl border border-white/10 bg-white/5 p-6">
+              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-cyan text-lg font-black text-brand-deep">{index + 1}</span>
+              <h3 className="mt-5 text-xl font-black text-white">{step.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-white/65">{step.text}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
-  );
-}
-
-function Step({ step, index }: { step: (typeof steps)[number]; index: number }) {
-  const ref = useReveal<HTMLLIElement>();
-  const isLeft = index % 2 === 0;
-  return (
-    <li ref={ref} className="relative md:grid md:grid-cols-2 md:gap-12">
-      <div className={`md:${isLeft ? "pr-12 text-right" : "col-start-2 pl-12"} pl-16 md:pl-0`}>
-        <div className="bg-white border border-slate-100 rounded-2xl p-5 shadow-card">
-          <div className="text-xs font-extrabold tracking-widest text-brand-bright mb-1">PASO {step.n}</div>
-          <h3 className="text-lg font-bold text-brand-deep mb-2">{step.title}</h3>
-          <p className="text-sm text-brand-text leading-relaxed">{step.text}</p>
-        </div>
-      </div>
-
-      {/* dot */}
-      <div className="absolute left-6 md:left-1/2 top-5 -translate-x-1/2 w-4 h-4 rounded-full bg-gradient-cta ring-4 ring-white" />
-    </li>
   );
 }

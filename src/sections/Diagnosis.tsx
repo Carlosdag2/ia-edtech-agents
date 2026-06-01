@@ -1,44 +1,33 @@
-import { SectionTitle } from "@/components/SectionTitle";
 import { LeadForm } from "@/components/LeadForm";
-import { ShieldCheck } from "lucide-react";
-
-const bullets = [
-  "Revisamos captación, admisiones, onboarding, soporte, retención y operación.",
-  "Detectamos procesos manuales, fugas y desconexiones entre áreas.",
-  "Identificamos agentes IA prioritarios.",
-  "Evaluamos el uso actual de Google Workspace, Gemini, CRM y datos.",
-  "Priorizamos quick wins y oportunidades de alto impacto.",
-  "Definimos siguientes pasos con enfoque estratégico.",
-];
 
 export function Diagnosis() {
   return (
-    <section id="diagnostico" className="py-20 md:py-28 bg-gradient-soft">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-10">
-        <div className="lg:col-span-5">
-          <SectionTitle
-            eyebrow="Diagnóstico"
-            title="Solicita tu Diagnóstico de Oficina Agéntica EdTech"
-            subtitle="Analizamos tu organización educativa para detectar dónde estás perdiendo conversión, tiempo, visibilidad o experiencia de alumno, y te proponemos una primera hoja de ruta para aplicar agentes IA con criterio, seguridad y retorno."
-            align="left"
-          />
-
-          <ul className="mt-8 space-y-3">
-            {bullets.map((b) => (
-              <li key={b} className="flex items-start gap-3 text-sm text-brand-deep">
-                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-cyan shrink-0" />
-                {b}
-              </li>
+    <section id="diagnostico" className="bg-white px-5 py-20">
+      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+        <div className="lg:sticky lg:top-28">
+          <span className="rounded-full bg-brand-bg px-4 py-1.5 text-xs font-black uppercase tracking-[0.18em] text-brand-mid">Diagnóstico</span>
+          <h2 className="mt-5 text-3xl font-black text-brand-deep md:text-5xl">Solicita tu diagnóstico de Oficina Agéntica EdTech</h2>
+          <p className="mt-5 text-lg leading-relaxed text-brand-text">
+            Cuéntanos tu contexto y te diremos dónde puede generar más impacto una Oficina Agéntica EdTech.
+          </p>
+          <div className="mt-7 space-y-3">
+            {[
+              "Fugas en captación, admisiones y onboarding",
+              "Procesos manuales con alto potencial de automatización",
+              "Agentes IA prioritarios y quick wins",
+              "Uso actual de Google Workspace, Gemini, CRM y datos",
+            ].map((item) => (
+              <div key={item} className="rounded-2xl bg-brand-bg/70 px-4 py-3 text-sm font-semibold text-brand-deep">
+                {item}
+              </div>
             ))}
-          </ul>
-
-          <div className="mt-8 inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white border border-brand-bright/30 text-sm font-semibold text-brand-deep shadow-card">
-            <ShieldCheck size={16} className="text-brand-bright" />
-            Orientado a dirección · Sin compromiso · 100% confidencial
           </div>
+          <p className="mt-6 rounded-2xl border border-brand-bright/15 bg-white p-4 text-sm font-bold text-brand-mid shadow-card">
+            Diagnóstico orientado a dirección · Sin compromiso · 100% confidencial
+          </p>
         </div>
 
-        <div className="lg:col-span-7">
+        <div className="rounded-[2rem] border border-slate-100 bg-white p-5 shadow-card-hover md:p-8">
           <LeadForm />
         </div>
       </div>

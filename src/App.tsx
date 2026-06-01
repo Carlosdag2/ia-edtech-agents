@@ -1,23 +1,21 @@
 import { useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { ClientLogos } from "@/components/ClientLogos";
 import { Hero } from "@/sections/Hero";
-import { WhatIsChanging } from "@/sections/WhatIsChanging";
 import { Problem } from "@/sections/Problem";
-import { WhatIs } from "@/sections/WhatIs";
+import { Solution } from "@/sections/Solution";
 import { AgentsJourney } from "@/sections/AgentsJourney";
-import { UseCases } from "@/sections/UseCases";
-import { Alliance } from "@/sections/Alliance";
+import { SuccessCases } from "@/sections/SuccessCases";
 import { Method } from "@/sections/Method";
-import { GoogleStack } from "@/sections/GoogleStack";
-import { BeforeAfter } from "@/sections/BeforeAfter";
-import { Results } from "@/sections/Results";
 import { Pricing } from "@/sections/Pricing";
 import { Diagnosis } from "@/sections/Diagnosis";
 import { FAQ } from "@/sections/FAQ";
 import { FinalCTA } from "@/sections/FinalCTA";
 import { initScrollTracking } from "@/lib/tracking";
 import { captureUtms } from "@/lib/utm";
+import { Alliance } from "./sections/Alliance";
+import { WhatIs } from "./sections/WhatIs";
 
 export default function App() {
   useEffect(() => {
@@ -31,16 +29,13 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
-        <WhatIsChanging />
+        <ClientLogos />
+        <Solution />
         <Problem />
-        <WhatIs />
         <AgentsJourney />
-        <UseCases />
-        <Alliance />
+        <SuccessCases />
         <Method />
-        <GoogleStack />
-        <BeforeAfter />
-        <Results />
+        <Alliance />
         <Pricing />
         <Diagnosis />
         <FAQ />

@@ -1,143 +1,73 @@
-import { SectionTitle } from "@/components/SectionTitle";
-import { ButtonLink } from "@/components/Button";
-import { Check, Star } from "lucide-react";
 import { trackEvent } from "@/lib/tracking";
-import { useReveal } from "@/hooks/useReveal";
 
 const plans = [
   {
-    id: "start",
-    name: "START",
-    sub: "Diagnóstico y primer piloto",
-    audience: "Para organizaciones educativas que quieren empezar con un caso de uso claro.",
+    name: "Start",
     price: "Desde 2.500 €",
-    featured: false,
-    includes: [
-      "Diagnóstico rápido EdTech + IA",
-      "Revisión de captación, onboarding o soporte",
-      "Mapa de oportunidades prioritarias",
-      "1-2 agentes o automatizaciones básicas",
-      "Plantillas de prompts y flujos",
-      "Sesión de formación inicial",
-    ],
-    cta: "Solicitar diagnóstico Start",
+    subtitle: "Diagnóstico + primer piloto",
     event: "click_cta_pricing_start",
+    bullets: ["Diagnóstico rápido EdTech + IA", "Mapa de oportunidades prioritarias", "1-2 agentes o automatizaciones", "Plantillas de prompts y flujos", "Sesión de formación inicial"],
   },
   {
-    id: "growth",
-    name: "GROWTH",
-    sub: "Oficina Agéntica EdTech inicial",
-    audience: "Para instituciones que quieren conectar varias áreas y medir impacto.",
+    name: "Growth",
     price: "Desde 6.500 €",
-    featured: true,
-    includes: [
-      "Diagnóstico AS IS / TO BE completo",
-      "Mapa del journey educativo",
-      "4-6 agentes personalizados",
-      "Automatizaciones con Google Workspace",
-      "Dashboard básico en Looker Studio",
-      "Gobierno inicial de IA y permisos",
-      "Formación al equipo",
-    ],
-    cta: "Solicitar diagnóstico Growth",
+    subtitle: "Journey + agentes + dashboard inicial",
     event: "click_cta_pricing_growth",
+    featured: true,
+    bullets: ["Diagnóstico AS IS / TO BE", "Mapa del journey educativo", "4-6 agentes personalizados", "Automatizaciones Workspace", "Dashboard inicial en Looker Studio"],
   },
   {
-    id: "pro",
-    name: "PRO",
-    sub: "Transformación agéntica educativa",
-    audience: "Para universidades, escuelas de negocio o grupos educativos que quieren escalar IA con gobierno.",
+    name: "Pro",
     price: "Desde 12.500 €",
-    featured: false,
-    includes: [
-      "Mapa completo de procesos por área",
-      "Agentes especializados por departamento",
-      "Gobierno de IA, trazabilidad y seguridad",
-      "Integraciones con CRM, LMS, ERP o sistemas internos",
-      "Reporting avanzado para dirección",
-      "Acompañamiento en adopción cultural",
-      "Plan de escalado por fases",
-    ],
-    cta: "Solicitar diagnóstico Pro",
+    subtitle: "Transformación por áreas + gobierno IA",
     event: "click_cta_pricing_pro",
+    bullets: ["Mapa completo por áreas", "Agentes por departamento", "Gobierno IA y trazabilidad", "Integración con CRM/LMS/ERP", "Plan de escalado por fases"],
   },
 ];
 
 export function Pricing() {
   return (
-    <section id="paquetes" className="py-20 md:py-28 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionTitle
-          eyebrow="Paquetes"
-          title="Elige el punto de partida para tu Oficina Agéntica EdTech"
-        />
+    <section id="paquetes" className="bg-gradient-soft px-5 py-20">
+      <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="rounded-full bg-white px-4 py-1.5 text-xs font-black uppercase tracking-[0.18em] text-brand-mid shadow-card">Paquetes</span>
+          <h2 className="mt-5 text-3xl font-black text-brand-deep md:text-5xl">Elige el punto de partida</h2>
+          <p className="mt-4 text-lg leading-relaxed text-brand-text">El diagnóstico define qué paquete encaja mejor según madurez, equipo, herramientas y objetivos.</p>
+        </div>
 
-        <div className="mt-12 grid gap-6 lg:grid-cols-3">
-          {plans.map((p) => (
-            <PlanCard key={p.id} plan={p} />
+        <div className="mt-10 grid gap-6 lg:grid-cols-3">
+          {plans.map((plan) => (
+            <article
+              key={plan.name}
+              className={`relative rounded-[2rem] p-7 shadow-card transition hover:-translate-y-1 hover:shadow-card-hover ${
+                plan.featured ? "bg-brand-deep text-white ring-4 ring-brand-cyan/15" : "border border-slate-100 bg-white text-brand-deep"
+              }`}
+            >
+              {plan.featured && <span className="absolute right-6 top-6 rounded-full bg-brand-cyan px-3 py-1 text-xs font-black text-brand-deep">Más recomendado</span>}
+              <p className={`text-sm font-black uppercase tracking-[0.18em] ${plan.featured ? "text-brand-cyan" : "text-brand-bright"}`}>{plan.name}</p>
+              <h3 className={`mt-4 text-3xl font-black ${plan.featured ? "text-white" : "text-brand-deep"}`}>{plan.price}</h3>
+              <p className={`mt-2 text-sm font-semibold ${plan.featured ? "text-white/70" : "text-brand-text"}`}>{plan.subtitle}</p>
+              <ul className="mt-7 space-y-3">
+                {plan.bullets.map((bullet) => (
+                  <li key={bullet} className={`flex gap-3 text-sm ${plan.featured ? "text-white/82" : "text-brand-text"}`}>
+                    <span className={`mt-1 h-2 w-2 shrink-0 rounded-full ${plan.featured ? "bg-brand-cyan" : "bg-brand-bright"}`} />
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="#diagnostico"
+                onClick={() => trackEvent(plan.event)}
+                className={`mt-8 inline-flex w-full justify-center rounded-full px-5 py-3 font-bold transition ${
+                  plan.featured ? "bg-white text-brand-deep hover:bg-brand-bg" : "bg-gradient-cta text-white shadow-glow hover:-translate-y-0.5"
+                }`}
+              >
+                Solicitar diagnóstico {plan.name}
+              </a>
+            </article>
           ))}
         </div>
-
-        <p className="mt-10 text-center text-sm text-brand-text max-w-2xl mx-auto">
-          El diagnóstico nos permite recomendar el punto de partida adecuado según madurez, herramientas,
-          equipo y objetivos.
-        </p>
       </div>
     </section>
-  );
-}
-
-function PlanCard({ plan }: { plan: (typeof plans)[number] }) {
-  const ref = useReveal<HTMLDivElement>();
-  return (
-    <div
-      ref={ref}
-      className={`relative rounded-3xl p-7 md:p-8 transition-all duration-300 hover:-translate-y-1 ${
-        plan.featured
-          ? "bg-gradient-hero text-white shadow-glow lg:scale-[1.03]"
-          : "bg-white text-brand-deep border border-slate-100 shadow-card hover:shadow-card-hover"
-      }`}
-    >
-      {plan.featured && (
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-white text-brand-bright text-xs font-bold flex items-center gap-1 shadow-card">
-          <Star size={12} className="fill-brand-bright" /> Más recomendado
-        </div>
-      )}
-
-      <div className={`text-xs font-extrabold tracking-widest mb-1 ${plan.featured ? "text-brand-cyan" : "text-brand-bright"}`}>
-        {plan.name}
-      </div>
-      <h3 className={`text-xl font-bold mb-2 ${plan.featured ? "text-white" : "text-brand-deep"}`}>
-        {plan.sub}
-      </h3>
-      <p className={`text-sm leading-relaxed mb-5 ${plan.featured ? "text-white/85" : "text-brand-text"}`}>
-        {plan.audience}
-      </p>
-
-      <div className={`text-3xl font-extrabold mb-6 ${plan.featured ? "text-white" : "text-brand-deep"}`}>
-        {plan.price}
-      </div>
-
-      <ul className="space-y-2.5 mb-7">
-        {plan.includes.map((i) => (
-          <li key={i} className="flex items-start gap-2.5 text-sm">
-            <Check
-              size={16}
-              className={`mt-0.5 shrink-0 ${plan.featured ? "text-brand-cyan" : "text-brand-bright"}`}
-            />
-            <span className={plan.featured ? "text-white/90" : "text-brand-text"}>{i}</span>
-          </li>
-        ))}
-      </ul>
-
-      <ButtonLink
-        href="#diagnostico"
-        variant={plan.featured ? "secondary" : "cta"}
-        className="w-full"
-        onClick={() => trackEvent(plan.event, { plan: plan.id })}
-      >
-        {plan.cta}
-      </ButtonLink>
-    </div>
   );
 }

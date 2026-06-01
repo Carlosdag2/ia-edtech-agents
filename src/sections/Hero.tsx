@@ -1,173 +1,102 @@
-import { Sparkles, ChevronDown, Bot, AlertTriangle, FileText, LayoutDashboard } from "lucide-react";
-import { ButtonLink } from "@/components/Button";
+import { ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
 import { trackEvent } from "@/lib/tracking";
+
+const bullets = [
+  "Detecta fugas en el journey del alumno",
+  "Automatiza admisiones, soporte y seguimiento",
+  "Mejora experiencia sin saturar al equipo",
+  "IA gobernada, segura y trazable",
+];
 
 export function Hero() {
   return (
-    <section id="top" className="relative pt-28 md:pt-36 pb-20 md:pb-28 overflow-hidden bg-gradient-soft">
-      {/* Background decoration */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-20 -left-32 w-96 h-96 rounded-full bg-brand-cyan/10 blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-[28rem] h-[28rem] rounded-full bg-brand-violet/10 blur-3xl" />
-      </div>
+    <section id="inicio" className="relative overflow-hidden bg-gradient-soft px-5 pt-32 pb-20 lg:pt-36">
+      <div className="absolute -right-40 -top-40 h-96 w-96 rounded-full bg-brand-cyan/20 blur-3xl" />
+      <div className="absolute -bottom-32 -left-40 h-96 w-96 rounded-full bg-brand-violet/10 blur-3xl" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-12 items-center">
-        <div className="lg:col-span-7">
-          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-brand-bright/30 text-xs font-semibold text-brand-bright shadow-card">
-            <Sparkles size={14} /> IA Power + DataQuantum + Google
-          </span>
+      <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+        <div>
+          <div className="flex flex-wrap gap-2">
+            {['IA Power + DataQuantum + Google', 'Agentes IA para educación', 'Diagnóstico estratégico'].map((badge) => (
+              <span key={badge} className="rounded-full border border-brand-bright/15 bg-white px-4 py-2 text-xs font-bold text-brand-mid shadow-card">
+                {badge}
+              </span>
+            ))}
+          </div>
 
-          <h1 className="mt-5 text-4xl md:text-5xl lg:text-6xl font-extrabold text-brand-deep leading-[1.08]">
-            La <span className="bg-clip-text text-transparent bg-gradient-cta">Oficina Agéntica EdTech</span>{" "}
-            para transformar captación, experiencia y operación educativa con IA
+          <h1 className="mt-7 max-w-4xl text-4xl font-black leading-[1.02] text-brand-deep md:text-6xl">
+            Oficina Agéntica EdTech para captar, acompañar y fidelizar alumnos con IA
           </h1>
-
-          <p className="mt-6 text-base md:text-lg text-brand-text leading-relaxed max-w-2xl">
-            Diseñamos agentes de IA conectados a Google Workspace, Gemini, NotebookLM, CRM y procesos
-            internos para ayudar a universidades, escuelas de negocio y organizaciones educativas a captar
-            mejor, acompañar al alumno, automatizar tareas y tomar decisiones con más contexto.
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-brand-text md:text-xl">
+            Diseñamos agentes de IA conectados a Google Workspace, Gemini, NotebookLM, CRM y procesos internos para mejorar captación, admisiones, onboarding, soporte y retención.
           </p>
 
-          <ul className="mt-7 grid sm:grid-cols-2 gap-2.5 max-w-2xl">
-            {[
-              "Más conversión de lead a matrícula",
-              "Mejor onboarding y experiencia del alumno",
-              "Menos carga operativa para equipos internos",
-              "Agentes IA conectados a procesos reales",
-              "Gobierno, seguridad y trazabilidad desde el diseño",
-            ].map((b) => (
-              <li key={b} className="flex items-start gap-2.5 text-sm text-brand-deep">
-                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-cyan shrink-0" /> {b}
-              </li>
+          <div className="mt-7 grid gap-3 sm:grid-cols-2">
+            {bullets.map((item) => (
+              <div key={item} className="flex items-start gap-3 rounded-2xl bg-white/75 p-3 shadow-card">
+                <CheckCircle2 className="mt-0.5 shrink-0 text-brand-bright" size={18} />
+                <span className="text-sm font-semibold text-brand-deep">{item}</span>
+              </div>
             ))}
-          </ul>
+          </div>
 
-          <div className="mt-9 flex flex-col sm:flex-row gap-3">
-            <ButtonLink
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <a
               href="#diagnostico"
-              variant="cta"
-              size="lg"
               onClick={() => trackEvent("click_cta_hero")}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-cta px-7 py-4 font-bold text-white shadow-glow transition hover:-translate-y-0.5"
             >
-              Solicitar diagnóstico de Oficina Agéntica EdTech
-            </ButtonLink>
-            <ButtonLink
-              href="#que-es"
-              variant="secondary"
-              size="lg"
+              Solicitar diagnóstico <ArrowRight size={18} />
+            </a>
+            <a
+              href="#casos"
               onClick={() => trackEvent("click_cta_secondary")}
+              className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-7 py-4 font-bold text-brand-deep shadow-card transition hover:border-brand-bright hover:text-brand-bright"
             >
-              Ver cómo funciona <ChevronDown size={16} />
-            </ButtonLink>
+              Ver casos EdTech
+            </a>
           </div>
         </div>
 
-        {/* Dashboard visual */}
-        <div className="lg:col-span-5 relative">
-          <AgentDashboard />
-        </div>
-      </div>
-    </section>
-  );
-}
+        <div className="relative">
+          <div className="rounded-[2rem] border border-white/70 bg-white p-5 shadow-card-hover">
+            <div className="rounded-[1.5rem] bg-brand-deep p-5 text-white">
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand-cyan">Agente IA EdTech activo</p>
+                  <p className="mt-1 text-lg font-black">Panel de oportunidades</p>
+                </div>
+                <Sparkles className="text-brand-cyan" />
+              </div>
 
-function AgentDashboard() {
-  return (
-    <div className="relative">
-      {/* Floating chips */}
-      <div className="hidden md:block absolute -left-6 top-10 z-10 animate-floaty">
-        <Chip>Tutor virtual activo</Chip>
-      </div>
-      <div className="hidden md:block absolute -right-4 top-32 z-10 animate-floaty" style={{ animationDelay: "1s" }}>
-        <Chip color="violet">Riesgo de abandono detectado</Chip>
-      </div>
-      <div className="hidden md:block absolute -left-2 bottom-10 z-10 animate-floaty" style={{ animationDelay: "2s" }}>
-        <Chip color="cyan">Briefing de admisión generado</Chip>
-      </div>
-      <div className="hidden md:block absolute -right-6 bottom-0 z-10 animate-floaty" style={{ animationDelay: "0.5s" }}>
-        <Chip>Dashboard actualizado</Chip>
-      </div>
-
-      <div className="relative rounded-3xl bg-white border border-slate-100 shadow-card p-5 md:p-6">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-gradient-cta flex items-center justify-center text-white">
-              <Bot size={18} />
-            </div>
-            <div>
-              <div className="text-sm font-bold text-brand-deep">Agente IA EdTech</div>
-              <div className="flex items-center gap-1.5 text-[11px] text-emerald-600 font-medium">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse-dot" /> Activo
+              <div className="mt-5 space-y-3">
+                {[
+                  ['Lead educativo detectado', 'Interés en Máster de IA · alta intención'],
+                  ['Programa recomendado', 'Data & AI · modalidad online'],
+                  ['Riesgo de abandono', 'Alumno inactivo 9 días · alerta creada'],
+                  ['Tutor virtual activo', '32 dudas resueltas con conocimiento interno'],
+                ].map(([title, text], i) => (
+                  <div key={title} className="rounded-2xl bg-white/10 p-4">
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-cyan/20 text-sm font-black text-brand-cyan">{i + 1}</span>
+                      <div>
+                        <p className="font-bold">{title}</p>
+                        <p className="text-sm text-white/70">{text}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
-          <LayoutDashboard size={18} className="text-brand-text/60" />
-        </div>
-
-        <div className="space-y-3">
-          <Row icon={<Sparkles size={14} />} tone="cyan">
-            Nuevo lead interesado en <b>Máster de IA</b> detectado.
-          </Row>
-          <Row icon={<FileText size={14} />}>
-            Consultando histórico de admisiones, perfil del alumno y programa recomendado…
-          </Row>
-          <Row icon={<Sparkles size={14} />} tone="violet">
-            Programa sugerido: <b>Máster en Data &amp; AI</b>.
-          </Row>
-          <Row icon={<AlertTriangle size={14} />} tone="emerald">
-            Acción creada: <b>email personalizado</b> + tarea de seguimiento + alerta a admisiones.
-          </Row>
-        </div>
-
-        <div className="mt-5 grid grid-cols-3 gap-2 text-center">
-          {[
-            { k: "Leads", v: "128" },
-            { k: "Conversión", v: "+24%" },
-            { k: "SLA", v: "2h" },
-          ].map((s) => (
-            <div key={s.k} className="rounded-xl bg-brand-bg py-2.5">
-              <div className="text-base font-bold text-brand-deep">{s.v}</div>
-              <div className="text-[10px] uppercase tracking-wider text-brand-text">{s.k}</div>
-            </div>
-          ))}
+          <div className="absolute -right-4 top-8 hidden rounded-2xl bg-white px-4 py-3 text-sm font-bold text-brand-deep shadow-card-hover md:block">
+            Dashboard actualizado
+          </div>
+          <div className="absolute -left-4 bottom-8 hidden rounded-2xl bg-white px-4 py-3 text-sm font-bold text-brand-deep shadow-card-hover md:block">
+            Briefing de admisión generado
+          </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-function Chip({ children, color = "blue" }: { children: React.ReactNode; color?: "blue" | "cyan" | "violet" }) {
-  const map = {
-    blue: "bg-white text-brand-deep border-brand-bright/40",
-    cyan: "bg-white text-brand-cyan border-brand-cyan/40",
-    violet: "bg-white text-brand-violet border-brand-violet/40",
-  } as const;
-  return (
-    <div className={`px-3 py-2 rounded-full border shadow-card text-xs font-semibold ${map[color]}`}>
-      {children}
-    </div>
-  );
-}
-
-function Row({
-  children,
-  icon,
-  tone = "blue",
-}: {
-  children: React.ReactNode;
-  icon: React.ReactNode;
-  tone?: "blue" | "cyan" | "violet" | "emerald";
-}) {
-  const map = {
-    blue: "bg-blue-50 text-brand-deep",
-    cyan: "bg-cyan-50 text-cyan-900",
-    violet: "bg-violet-50 text-violet-900",
-    emerald: "bg-emerald-50 text-emerald-900",
-  } as const;
-  return (
-    <div className={`flex items-start gap-2.5 p-3 rounded-xl text-[13px] leading-snug ${map[tone]}`}>
-      <span className="mt-0.5 shrink-0 opacity-80">{icon}</span>
-      <span>{children}</span>
-    </div>
+    </section>
   );
 }
