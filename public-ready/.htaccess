@@ -1,15 +1,16 @@
-﻿<IfModule mod_rewrite.c>
+﻿$htaccess = @'
+<IfModule mod_rewrite.c>
 RewriteEngine On
-
-# Subdirectory base on Dinahosting
 RewriteBase /oficina-agentica-edtech/
 
 RewriteRule ^api/ - [L]
-RewriteRule ^index\.html$ - [L]
 
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-RewriteRule ^ index.html [L]
+RewriteRule . index.html [L]
 </IfModule>
+'@
+
+[System.IO.File]::WriteAllText("public-ready\.htaccess", $htaccess, (New-Object System.Text.UTF8Encoding($false)))
