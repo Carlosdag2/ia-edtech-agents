@@ -1,62 +1,15 @@
-# IA Power — Oficina Agéntica EdTech
-# .htaccess para Dinahosting (Apache)
+﻿<IfModule mod_rewrite.c>
+RewriteEngine On
 
-Options -Indexes
-DirectoryIndex index.html index.php
+# Subdirectory base on Dinahosting
+RewriteBase /oficina-agentica-edtech/
 
-# --- Seguridad básica ---
-<FilesMatch "^(config\.php|config\.example\.php|\.env|composer\.(json|lock)|package(-lock)?\.json|README\.md)$">
-    Require all denied
-</FilesMatch>
+RewriteRule ^api/ - [L]
+RewriteRule ^index\.html$ - [L]
 
-# Bloquea archivos ocultos
-<FilesMatch "^\.">
-    Require all denied
-</FilesMatch>
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
 
-# Headers de seguridad
-<IfModule mod_headers.c>
-    Header always set X-Content-Type-Options "nosniff"
-    Header always set X-Frame-Options "SAMEORIGIN"
-    Header always set Referrer-Policy "strict-origin-when-cross-origin"
-    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+RewriteRule ^ index.html [L]
 </IfModule>
-
-# Compresión
-<IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml
-</IfModule>
-
-# Cache assets (Vite hashed)
-<IfModule mod_expires.c>
-    ExpiresActive On
-    ExpiresByType text/css "access plus 1 year"
-    ExpiresByType application/javascript "access plus 1 year"
-    ExpiresByType image/svg+xml "access plus 30 days"
-    ExpiresByType image/png "access plus 30 days"
-    ExpiresByType image/jpeg "access plus 30 days"
-    ExpiresByType image/webp "access plus 30 days"
-    ExpiresByType font/woff2 "access plus 1 year"
-</IfModule>
-
-# --- SPA rewrite ---
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-
-    # No reescribir /api (deja que PHP haga su trabajo)
-    RewriteRule ^api/ - [L]
-
-    # Servir archivos o directorios reales tal cual
-    RewriteCond %{REQUEST_FILENAME} -f [OR]
-    RewriteCond %{REQUEST_FILENAME} -d
-    RewriteRule ^ - [L]
-
-    # Resto → SPA
-    RewriteRule . index.html [L]
-</IfModule>
-
-# Forzar HTTPS (descomenta cuando tengas el certificado activo)
-# <IfModule mod_rewrite.c>
-#     RewriteCond %{HTTPS} off
-#     RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
-# </IfModule>

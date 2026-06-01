@@ -8,11 +8,9 @@
 return [
     'google_form_url' => 'https://docs.google.com/forms/d/e/1FAIpQLSdQcczpr6_2XzPNHvtM_1s7ASPuIN4YoeLX6NcWoWXqUncmdg/formResponse',
     'calendar_url'    => 'https://calendar.app.google/gPuxw1LtokztmrKL8',
-    'debug'           => true,
-    // Dev-only: allow skipping SSL verification if local PHP lacks CA bundle.
-    'allow_insecure_ssl' => true,
-    // Dev-only: disable rate limiting to avoid 429 during local testing.
-    'rate_limit_enabled' => false,
+    'debug'           => false,
+    'allow_insecure_ssl' => false,
+    'rate_limit_enabled' => true,
 
     'entries' => [
         'nombre'             => 'entry.1269787648',

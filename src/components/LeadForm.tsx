@@ -6,7 +6,7 @@ import { trackEvent } from "@/lib/tracking";
 import { submitLead } from "@/lib/api";
 import { validateLead, type LeadFormData, type FormErrors } from "@/lib/validation";
 
-const CALENDAR_URL = "https://calendar.google.com/";
+const CALENDAR_URL = "https://calendar.app.google/gPuxw1LtokztmrKL8";
 
 const TIPO_ORG = [
   "Universidad",

@@ -2,7 +2,7 @@ import type { LeadFormData } from "./validation";
 
 // Configurable endpoint. In Dinahosting will resolve to /api/procesar-lead.php
 // If deployed under a subpath, change this constant.
-export const FORM_ENDPOINT = "/api/procesar-lead.php";
+export const FORM_ENDPOINT = "/oficina-agentica-edtech/api/procesar-lead.php";
 
 export type LeadResponse = { ok: boolean; message: string };
 

@@ -9,6 +9,7 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config/dist/index.js";
 
 export default defineConfig({
   vite: {
+    base: "/oficina-agentica-edtech/",
     server: {
       proxy: {
         "/api": {
