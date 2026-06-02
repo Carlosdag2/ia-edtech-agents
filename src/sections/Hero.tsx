@@ -25,7 +25,7 @@ export function Hero() {
           </div>
 
           <h1 className="mt-7 max-w-4xl text-4xl font-black leading-[1.02] text-brand-deep md:text-6xl">
-            Oficina Agéntica EdTech para captar, acompañar y fidelizar alumnos con IA
+            Oficina Agéntica EdTech para captar, acompañar y fidelizar alumnos con IA Power
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-brand-text md:text-xl">
             Diseñamos agentes de IA conectados a Google Workspace, Gemini, NotebookLM, CRM y procesos internos para mejorar captación, admisiones, onboarding, soporte y retención.

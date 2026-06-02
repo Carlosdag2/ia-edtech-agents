@@ -12,30 +12,40 @@ const nav = [
   { label: "Paquetes", href: "#paquetes" },
 ];
 
+const calendarUrl = "https://iapower.es/calendario/";
+
 export function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/60 bg-white/92 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 lg:px-8">
-        <a href="#inicio" className="flex items-center gap-3" aria-label="IA Power - Oficina Agéntica EdTech">
+        <a
+          href="#inicio"
+          className="flex items-center gap-3"
+          aria-label="IA Power - Oficina Agéntica EdTech"
+        >
           <BrandLogo />
         </a>
 
         <nav className="hidden items-center gap-6 lg:flex" aria-label="Principal">
           {nav.map((item) => (
-            <a key={item.href} href={item.href} className="text-sm font-semibold text-slate-600 transition hover:text-brand-bright">
+            <a
+              key={item.href}
+              href={item.href}
+              className="text-sm font-semibold text-slate-600 transition hover:text-brand-bright"
+            >
               {item.label}
             </a>
           ))}
         </nav>
 
         <a
-          href="#diagnostico"
-          onClick={() => trackEvent("click_cta_nav")}
+          href={calendarUrl}
+          onClick={() => trackEvent("click_cta_nav_calendar")}
           className="hidden rounded-full bg-gradient-cta px-5 py-2.5 text-sm font-bold text-white shadow-glow transition hover:-translate-y-0.5 lg:inline-flex"
         >
-          Solicitar diagnóstico
+          Agenda una videollamada
         </a>
 
         <button
@@ -61,15 +71,16 @@ export function Navbar() {
                 {item.label}
               </a>
             ))}
+
             <a
-              href="#diagnostico"
+              href={calendarUrl}
               onClick={() => {
                 setOpen(false);
-                trackEvent("click_cta_nav");
+                trackEvent("click_cta_nav_calendar");
               }}
               className="rounded-full bg-gradient-cta px-5 py-3 text-center text-sm font-bold text-white shadow-glow"
             >
-              Solicitar diagnóstico
+              Agenda una videollamada
             </a>
           </div>
         </div>

@@ -32,8 +32,8 @@ export default function App() {
         <ClientLogos />
         <Solution />
         <Problem />
-        <AgentsJourney />
         <SuccessCases />
+        <AgentsJourney />
         <Method />
         <Alliance />
         <Pricing />
